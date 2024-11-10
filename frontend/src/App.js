@@ -5,6 +5,8 @@ import { ThemeProvider, CssBaseline, Box, Container, Avatar, Typography } from '
 import theme from './themes/theme';
 import Sidebar from './components/Sidebar';
 import ExpenseForm from './components/ExpenseForm';
+import CategoryChart from './components/CategoryChart';
+import MonthlySummaryChart from './components/MonthlySummaryChart';
 
 function App() {
     const [expenses, setExpenses] = useState([]);
@@ -56,7 +58,7 @@ function App() {
                 }}>
                     <Box display="flex" alignItems="center" marginBottom={3}>
                         <Avatar sx={{ width: 64, height: 64, marginRight: 2 }} src="/path/to/profile.jpg" />
-                        <Typography variant="h6">User Name</Typography>
+                        <Typography variant="h6">Taro Yamada</Typography>
                     </Box>
                     <ExpenseForm
                         description={description}
@@ -69,6 +71,11 @@ function App() {
                         setCategory={setCategory}
                         onAdd={addExpense}
                     />
+                    {/* Container for charts */}
+                    <Box display="flex" gap={4} mt={3}>
+                        <CategoryChart expenses={expenses} />
+                        <MonthlySummaryChart expenses={expenses} />
+                    </Box>
                 </Container>
             </Box>
         </ThemeProvider>

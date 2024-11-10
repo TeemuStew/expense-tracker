@@ -11,7 +11,7 @@ const Sidebar = ({ expenses, onDelete }) => (
         padding: 3,
         boxShadow: 3,
     }}>
-        <Typography variant="h5" gutterBottom>Hello, User</Typography>
+        <Typography variant="h5" gutterBottom>Hello, Taro</Typography>
         <TotalCard expenses={expenses} />
         <Typography variant="subtitle1" color="textSecondary">Breakdown</Typography>
         <Divider sx={{ marginBottom: 2 }} />
