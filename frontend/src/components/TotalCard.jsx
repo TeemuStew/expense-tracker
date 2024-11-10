@@ -10,8 +10,8 @@ const TotalCard = ({ expenses }) => (
         marginY: 2,
         borderRadius: 2,
     }}>
-        <Typography variant="h6">Total:</Typography>
-        <Typography variant="h3">¥ {expenses.reduce((acc, item) => acc + item.amount, 0).toFixed(2)}</Typography>
+        <Typography variant="h6"sx={{ textAlign: 'center' }}>Total:</Typography>
+        <Typography variant="h3"sx={{ textAlign: 'center' }}>{expenses.reduce((acc, item) => acc + item.amount, 0).toFixed(2)} ¥</Typography>
     </Card>
 );
 
