@@ -47,6 +47,21 @@ app.post('/api/expenses', (req, res) => {
     );
 });
 
+// Update an expense by ID
+app.put('/api/expenses/:id', (req, res) => {
+    const { description, amount, date, category } = req.body;
+    db.run(
+        `UPDATE expenses SET description = ?, amount = ?, date = ?, category = ? WHERE id = ?`,
+        [description, amount, date, category, req.params.id],
+        function(err) {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.json({ updatedID: req.params.id });
+        }
+    );
+});
+
 // Delete an expense by ID
 app.delete('/api/expenses/:id', (req, res) => {
     db.run(
