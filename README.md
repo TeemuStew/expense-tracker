@@ -67,7 +67,3 @@ For backend this project uses:
 3. **Viewing Charts**:
    - **Category Chart**: Shows a pie chart breakdown of expenses by category in real-time.
    - **Monthly Summary Chart**: Displays a bar chart of monthly expenses, making it easy to track spending over time in real-time.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
