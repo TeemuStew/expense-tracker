@@ -1,18 +1,34 @@
 // src/components/ExpenseForm.jsx
-import React from 'react';
-import { Box, Grid, TextField, Button, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Grid, TextField, Button, MenuItem, Select, FormControl, InputLabel, Typography } from '@mui/material';
 
 const ExpenseForm = ({ description, amount, date, category, setDescription, setAmount, setDate, setCategory, onAdd }) => {
+    const [amountLimitReached, setAmountLimitReached] = useState(false);
+    const [descriptionLimitReached, setDescriptionLimitReached] = useState(false);
+
+    const handleAmountChange = (e) => {
+        const value = e.target.value;
+        if (value.length <= 10) {
+            setAmount(value);
+            setAmountLimitReached(value.length === 10); // Show message when limit is reached
+        }
+    };
+
+    const handleDescriptionChange = (e) => {
+        const value = e.target.value;
+        if (value.length <= 15) {
+            setDescription(value);
+            setDescriptionLimitReached(value.length === 15); // Show message when limit is reached
+        }
+    };
+
     const handleDateChange = (e) => {
         const value = e.target.value;
-
-        // Regex to match YYYY-MM-DD and restrict year to 4 digits
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
         if (dateRegex.test(value)) {
             setDate(value); 
         } else {
-            // If the year exceeds 4 digits, it gets  limited
             const parts = value.split("-");
             if (parts[0].length > 4) {
                 parts[0] = parts[0].slice(0, 4);
@@ -25,27 +41,57 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
         <Box component="form" noValidate autoComplete="off" sx={{ marginBottom: 3 }}>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={3}>
-                    <TextField
-                        label="Amount"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        type="number"
-                        fullWidth
-                        variant="outlined"
-                        InputProps={{
-                            startAdornment: <span>¥</span>
-                        }}
-                    />
+                    <Box position="relative">
+                        {amountLimitReached && (
+                            <Typography 
+                                color="error" 
+                                variant="caption" 
+                                sx={{ position: 'absolute', top: -23, left: 10 }} // Positioning message above input
+                            >
+                                Limit reached: 10 characters max
+                            </Typography>
+                        )}
+                        <TextField
+                            label="Amount"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            type="number"
+                            fullWidth
+                            variant="outlined"
+                            InputProps={{
+                                startAdornment: <span>¥</span>,
+                            }}
+                            inputProps={{
+                                maxLength: 10, // Limit amount to 10 characters
+                            }}
+                        />
+                    </Box>
                 </Grid>
+                
                 <Grid item xs={12} sm={3}>
-                    <TextField
-                        label="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        fullWidth
-                        variant="outlined"
-                    />
+                    <Box position="relative">
+                        {descriptionLimitReached && (
+                            <Typography 
+                                color="error" 
+                                variant="caption" 
+                                sx={{ position: 'absolute', top: -23, left: 10 }} // Positioning message above input
+                            >
+                                Limit reached: 15 characters max
+                            </Typography>
+                        )}
+                        <TextField
+                            label="Description"
+                            value={description}
+                            onChange={handleDescriptionChange}
+                            fullWidth
+                            variant="outlined"
+                            inputProps={{
+                                maxLength: 15, // Limit description to 15 characters
+                            }}
+                        />
+                    </Box>
                 </Grid>
+                
                 <Grid item xs={12} sm={3}>
                     <TextField
                         label="Date"
@@ -57,6 +103,7 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
                         variant="outlined"
                     />
                 </Grid>
+                
                 <Grid item xs={12} sm={3}>
                     <FormControl fullWidth variant="outlined">
                         <InputLabel>Category</InputLabel>
@@ -72,6 +119,7 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
                         </Select>
                     </FormControl>
                 </Grid>
+                
                 <Grid item xs={12}>
                     <Button
                         variant="contained"

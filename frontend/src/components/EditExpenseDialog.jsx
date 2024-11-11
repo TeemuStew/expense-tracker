@@ -16,7 +16,7 @@ const EditExpenseDialog = ({
     setCategory
 }) => (
     <Dialog open={open} onClose={onClose}>
-        <DialogTitle>Edit Expense</DialogTitle>
+        <DialogTitle textAlign="center">Edit Expense</DialogTitle>
         <DialogContent>
             <TextField
                 label="Description"
@@ -63,7 +63,7 @@ const EditExpenseDialog = ({
             </FormControl>
         </DialogContent>
         <DialogActions>
-            <Button onClick={onClose} color="secondary">Cancel</Button>
+            <Button onClick={onClose} color="secondary" >Cancel</Button>
             <Button onClick={onSave} color="primary">Save</Button>
         </DialogActions>
     </Dialog>
