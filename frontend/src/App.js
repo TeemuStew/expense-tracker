@@ -7,7 +7,8 @@ import Sidebar from './components/Sidebar';
 import ExpenseForm from './components/ExpenseForm';
 import CategoryChart from './components/CategoryChart';
 import MonthlySummaryChart from './components/MonthlySummaryChart';
-import EditExpenseDialog from './components/EditExpenseDialog'; 
+import EditExpenseDialog from './components/EditExpenseDialog';
+import NotificationSnackbar from './components/NotificationSnackbar'; // Import the new component
 
 function App() {
     const [expenses, setExpenses] = useState([]);
@@ -17,6 +18,11 @@ function App() {
     const [category, setCategory] = useState('');
     const [editId, setEditId] = useState(null);
     const [open, setOpen] = useState(false);
+
+    // Snackbar state for showing messages
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // 'success' or 'error'
 
     useEffect(() => {
         fetchExpenses();
@@ -28,7 +34,23 @@ function App() {
     };
 
     const addExpense = async () => {
-        if (!description || !amount || !date || !category) return;
+        // Validate form inputs
+        if (!description) {
+            showError("Expense couldn't be added because description is missing.");
+            return;
+        }
+        if (!amount) {
+            showError("Expense couldn't be added because amount is missing.");
+            return;
+        }
+        if (!date) {
+            showError("Expense couldn't be added because date is missing.");
+            return;
+        }
+        if (!category) {
+            showError("Expense couldn't be added because category is missing.");
+            return;
+        }
 
         try {
             if (editId) {
@@ -38,7 +60,7 @@ function App() {
                     date,
                     category
                 });
-                setEditId(null);
+                showSuccess("Expense updated successfully!");
             } else {
                 await axios.post('http://localhost:4000/api/expenses', {
                     description,
@@ -46,11 +68,14 @@ function App() {
                     date,
                     category
                 });
+                showSuccess("Expense added successfully!");
             }
             resetForm();
             fetchExpenses();
+            setEditId(null);
         } catch (error) {
             console.error("Error saving expense:", error);
+            showError("Failed to save expense due to a server error.");
         }
     };
 
@@ -79,6 +104,23 @@ function App() {
         resetForm();
         setEditId(null);
         setOpen(false); // Close the dialog
+    };
+
+    // Snackbar control functions
+    const showSuccess = (message) => {
+        setSnackbarMessage(message);
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+    };
+
+    const showError = (message) => {
+        setSnackbarMessage(message);
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
     };
 
     return (
@@ -125,6 +167,14 @@ function App() {
                 setDate={setDate}
                 category={category}
                 setCategory={setCategory}
+            />
+
+            {/* NotificationSnackbar Component */}
+            <NotificationSnackbar
+                open={snackbarOpen}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
+                onClose={handleSnackbarClose}
             />
         </ThemeProvider>
     );
