@@ -51,12 +51,13 @@ To get a local copy up and running, follow these steps.
 
 3. **Start the backend server**:
    ```bash
-   # In a separate terminal, navigate to the backend directory with cd backend
+   cd backend
    node server.js
    ```
 
 4. **Run the frontend**:
    ```bash
+   cd frontend
    npm start
    ```
 
