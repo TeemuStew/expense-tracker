@@ -1,33 +1,87 @@
 // src/components/ExpenseForm.jsx
-import React, { useState } from 'react';
-import { Box, Grid, TextField, Button, MenuItem, Select, FormControl, InputLabel, Typography } from '@mui/material';
 
-const ExpenseForm = ({ description, amount, date, category, setDescription, setAmount, setDate, setCategory, onAdd }) => {
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import {
+    Box,
+    Grid,
+    TextField,
+    Button,
+    MenuItem,
+    Select,
+    FormControl,
+    InputLabel,
+    Typography
+} from '@mui/material';
+
+/**
+ * ExpenseForm Component
+ * 
+ * Renders a form to add an expense, including fields for description, amount, date,
+ * and category. It validates input lengths and displays error messages when limits are reached.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.description - Current description of the expense
+ * @param {Function} props.setDescription - Function to update description
+ * @param {string | number} props.amount - Current amount of the expense
+ * @param {Function} props.setAmount - Function to update amount
+ * @param {string} props.date - Current date of the expense
+ * @param {Function} props.setDate - Function to update date
+ * @param {string} props.category - Current category of the expense
+ * @param {Function} props.setCategory - Function to update category
+ * @param {Function} props.onAdd - Callback to handle adding a new expense
+ * 
+ * @returns {JSX.Element} The rendered ExpenseForm component
+ */
+const ExpenseForm = ({
+    description,
+    setDescription,
+    amount,
+    setAmount,
+    date,
+    setDate,
+    category,
+    setCategory,
+    onAdd
+}) => {
     const [amountLimitReached, setAmountLimitReached] = useState(false);
     const [descriptionLimitReached, setDescriptionLimitReached] = useState(false);
 
+    /**
+     * Handles changes to the amount input field, updating the state and enforcing a character limit.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event for the amount input
+     */
     const handleAmountChange = (e) => {
         const value = e.target.value;
         if (value.length <= 10) {
             setAmount(value);
-            setAmountLimitReached(value.length === 10); // Show message when limit is reached
+            setAmountLimitReached(value.length === 10);
         }
     };
 
+    /**
+     * Handles changes to the description input field, updating the state and enforcing a character limit.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event for the description input
+     */
     const handleDescriptionChange = (e) => {
         const value = e.target.value;
         if (value.length <= 15) {
             setDescription(value);
-            setDescriptionLimitReached(value.length === 15); // Show message when limit is reached
+            setDescriptionLimitReached(value.length === 15);
         }
     };
 
+    /**
+     * Handles changes to the date input field, ensuring the date is in correct format.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event for the date input
+     */
     const handleDateChange = (e) => {
         const value = e.target.value;
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
         if (dateRegex.test(value)) {
-            setDate(value); 
+            setDate(value);
         } else {
             const parts = value.split("-");
             if (parts[0].length > 4) {
@@ -40,13 +94,15 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
     return (
         <Box component="form" noValidate autoComplete="off" sx={{ marginBottom: 3 }}>
             <Grid container spacing={2}>
+                
+                {/* Amount Field */}
                 <Grid item xs={12} sm={3}>
                     <Box position="relative">
                         {amountLimitReached && (
                             <Typography 
                                 color="error" 
                                 variant="caption" 
-                                sx={{ position: 'absolute', top: -23, left: 10 }} // Positioning message above input
+                                sx={{ position: 'absolute', top: -23, left: 10 }}
                             >
                                 Limit reached: 10 characters max
                             </Typography>
@@ -62,19 +118,20 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
                                 startAdornment: <span>¥</span>,
                             }}
                             inputProps={{
-                                maxLength: 10, // Limit amount to 10 characters
+                                maxLength: 10,
                             }}
                         />
                     </Box>
                 </Grid>
-                
+
+                {/* Description Field */}
                 <Grid item xs={12} sm={3}>
                     <Box position="relative">
                         {descriptionLimitReached && (
                             <Typography 
                                 color="error" 
                                 variant="caption" 
-                                sx={{ position: 'absolute', top: -23, left: 10 }} // Positioning message above input
+                                sx={{ position: 'absolute', top: -23, left: 10 }}
                             >
                                 Limit reached: 15 characters max
                             </Typography>
@@ -86,12 +143,13 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
                             fullWidth
                             variant="outlined"
                             inputProps={{
-                                maxLength: 15, // Limit description to 15 characters
+                                maxLength: 15,
                             }}
                         />
                     </Box>
                 </Grid>
-                
+
+                {/* Date Field */}
                 <Grid item xs={12} sm={3}>
                     <TextField
                         label="Date"
@@ -103,7 +161,8 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
                         variant="outlined"
                     />
                 </Grid>
-                
+
+                {/* Category Field */}
                 <Grid item xs={12} sm={3}>
                     <FormControl fullWidth variant="outlined">
                         <InputLabel>Category</InputLabel>
@@ -112,14 +171,15 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
                             onChange={(e) => setCategory(e.target.value)}
                             label="Category"
                         >
-                            <MenuItem value="food">Food/Beverage</MenuItem>
-                            <MenuItem value="travel">Travel/Commute</MenuItem>
+                            <MenuItem value="food">Food</MenuItem>
+                            <MenuItem value="travel">Travel</MenuItem>
                             <MenuItem value="shopping">Shopping</MenuItem>
                             <MenuItem value="other">Other</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
-                
+
+                {/* Submit Button */}
                 <Grid item xs={12}>
                     <Button
                         variant="contained"
@@ -134,6 +194,19 @@ const ExpenseForm = ({ description, amount, date, category, setDescription, setA
             </Grid>
         </Box>
     );
+};
+
+// Prop types to enforce expected data types
+ExpenseForm.propTypes = {
+    description: PropTypes.string.isRequired,
+    setDescription: PropTypes.func.isRequired,
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    setAmount: PropTypes.func.isRequired,
+    date: PropTypes.string.isRequired,
+    setDate: PropTypes.func.isRequired,
+    category: PropTypes.string.isRequired,
+    setCategory: PropTypes.func.isRequired,
+    onAdd: PropTypes.func.isRequired,
 };
 
 export default ExpenseForm;
