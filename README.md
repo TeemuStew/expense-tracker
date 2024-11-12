@@ -1,9 +1,11 @@
 ## Expense Tracker 💰📊
 
 An interactive expense tracking application built with React, allowing users to log, categorize, and visualize their expenses. This app includes features like search and filter options, as well as dynamic charts to help users better understand their spending patterns.
-## Demo Video
 
-https://github.com/TeemuStew/expense-tracker/blob/main/docs/demo.mp4
+<img src="https://github.com/user-attachments/assets/c1c06ee9-b42c-4016-b383-c3847114296e" alt="demovideo" width="700">
+<img width="636" alt="Näyttökuva 2024-11-12 kello 13 59 34" src="https://github.com/user-attachments/assets/3d6e99c2-e5f4-4298-b7cd-07bb274ef52d">
+<img width="636" alt="Näyttökuva 2024-11-12 kello 13 59 45" src="https://github.com/user-attachments/assets/0c7a3769-223b-44d9-812c-9b89c0e3a755">
+
 
 
 ### Table of Contents
