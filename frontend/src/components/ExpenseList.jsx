@@ -10,6 +10,7 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './ExpenseList.css'; 
 
 // Map each category to an icon for easy access
 const categoryIcons = {
