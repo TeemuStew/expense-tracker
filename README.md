@@ -25,7 +25,7 @@ An interactive expense tracking application built with React, allowing users to 
 
 ### Technologies Used
 - **Frontend**: React, Material-UI, Chart.js, dayjs
-- **Backend**: Express, Node.js, SQLite (replace if different)
+- **Backend**: Express, Node.js, SQLite 
 - **Libraries**: Axios (for API requests), React Transition Group (for animations)
   
 ### Getting Started
